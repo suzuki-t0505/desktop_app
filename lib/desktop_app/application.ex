@@ -7,6 +7,7 @@ defmodule DesktopApp.Application do
 
   @impl true
   def start(_type, _args) do
+    Desktop.identify_default_locale(DesktopAppWeb.Gettext)
     children = [
       # Start the Ecto repository
       DesktopApp.Repo,
@@ -15,9 +16,19 @@ defmodule DesktopApp.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: DesktopApp.PubSub},
       # Start the Endpoint (http/https)
-      DesktopAppWeb.Endpoint
+      DesktopAppWeb.Endpoint,
       # Start a worker by calling: DesktopApp.Worker.start_link(arg)
       # {DesktopApp.Worker, arg}
+      {
+        Desktop.Window,
+        [
+          app: :desktop_app,
+          id: DesktopAppWindow,
+          title: "DesktopApp",
+          size: {390, 844},
+          url: &DesktopAppWeb.Endpoint.url/0
+        ]
+      }
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
