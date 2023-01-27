@@ -1,0 +1,49 @@
+<%= live_redirect to: Routes.page_path(@socket, :index) do %>
+  <span>home</span>
+<% end %>
+
+<.form let={f} for={@new_changeset} phx-submit="toggle_insert">
+  <%= text_input f, :task_name %>
+  <button type="submit">add</button>
+</.form>
+
+<h2>ToDo tasks</h2>
+<%= for task <- Enum.reject(@tasks, fn task -> task.completed end) do %>
+  <li>
+    <input type="checkbox" checked={task.completed} phx-click="toggle_completed" phx-value-id={task.id}>
+
+    <%= if @mode == :edit and task.id == @edit_changeset.data.id do %>
+      <.form let={f}, for={@edit_changeset} phx-submit="toggle_update">
+        <%= hidden_input f, :id %>
+        <%= text_input f, :task_name %>
+        <button type="submit">update</button>
+        <button type="button" phx-click="toggle_cancel">cancel</button>
+      </.form>
+    <% else %>
+      <span><%= task.task_name %></span>
+      <button phx-click="toggle_edit" phx-value-id={task.id}>edit</button>
+      <button phx-click="toggle_delete", phx-value-id={task.id}>delete</button>
+    <% end %>
+  </li>
+<% end %>
+
+<hr>
+<h2>Completed tasks</h2>
+<%= for task <- Enum.filter(@tasks, fn task -> task.completed end) do %>
+  <li>
+    <input type="checkbox" checked={task.completed} phx-click="toggle_completed" phx-value-id={task.id}>
+
+    <%= if @mode == :edit and task.id == @edit_changeset.data.id do %>
+      <.form let={f}, for={@edit_changeset} phx-submit="toggle_update">
+        <%= hidden_input f, :id %>
+        <%= text_input f, :task_name %>
+        <button type="submit">update</button>
+        <button type="button" phx-click="toggle_cancel">cancel</button>
+      </.form>
+    <% else %>
+      <span><%= task.task_name %></span>
+      <button phx-click="toggle_edit" phx-value-id={task.id}>edit</button>
+      <button phx-click="toggle_delete", phx-value-id={task.id}>delete</button>
+    <% end %>
+  </li>
+<% end %>

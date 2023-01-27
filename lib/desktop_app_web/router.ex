@@ -18,6 +18,8 @@ defmodule DesktopAppWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+
+    live "/task", TaskLive, :index
   end
 
   # Other scopes may use custom stacks.
