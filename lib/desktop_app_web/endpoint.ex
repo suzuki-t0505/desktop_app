@@ -1,13 +1,13 @@
 defmodule DesktopAppWeb.Endpoint do
-  use Phoenix.Endpoint, otp_app: :desktop_app
+  use Desktop.Endpoint, otp_app: :desktop_app
 
   # The session will be stored in the cookie and signed,
   # this means its contents can be read but not tampered with.
   # Set :encryption_salt if you would also like to encrypt it.
   @session_options [
-    store: :cookie,
+    store: :ets,
     key: "_desktop_app_key",
-    signing_salt: "7d0L8yKI"
+    table: :session
   ]
 
   socket "/live", Phoenix.LiveView.Socket, websocket: [connect_info: [session: @session_options]]
