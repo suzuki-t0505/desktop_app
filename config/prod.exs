@@ -13,7 +13,7 @@ config :desktop_app, DesktopAppWeb.Endpoint,
   http: [ip: {127, 0, 0, 1}, port: 0],
   live_view: [signing_salt: "4FhTzu48"],
   secret_key_base: "Za74NosemUq0jY7/VsVUeuu4I9C7iPnhVsEx9qe3RvybTu5Dv9Q4JoIIc97vIDZ7",
-  server: true
+  server: true,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
 # Do not print debug messages in production
